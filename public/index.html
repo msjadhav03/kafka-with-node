@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Socket.io Weather Data</title>
     <style>
-      /* Styles for the application header */
       header {
         /* Green */
         color: rgb(18, 11, 11);
@@ -13,8 +12,6 @@
         padding: 20px;
         text-align: center;
       }
-
-      /* Styles for the weather card */
       .weather-card {
         margin-top: 15%;
         padding: 5%;
@@ -24,39 +21,14 @@
         color: rgb(19, 17, 17);
         text-align: center;
         transition: background-color 0.5s ease;
-        background-color: rgba(255, 255, 255, 0.5); /* White with 50% opacity */
+        background-color: rgba(255, 255, 255, 0.5);
       }
-
-      /* Styles for the weather data */
       .weather-data {
         font-size: 20px;
         margin-bottom: 10px;
       }
-
-      /* Additional styles for animations */
-      /* @keyframes rotate {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
-      } */
-
-      .sun {
-        width: 100px;
-        height: 100px;
-        animation: rotate 10s linear infinite;
-      }
-
-      .cloud {
-        width: 100px;
-        height: 80px;
-
-        animation: rotate 15s linear infinite;
-      }
       body {
-        background-image: url("flower.jpg"); /* Replace 'background.jpg' with your image URL */
+        background-image: url("flower.jpg");
         background-size: cover;
         background-repeat: no-repeat;
         background-attachment: fixed;
@@ -67,22 +39,17 @@
       }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
-    <!-- Include Socket.io library -->
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        const socket = io(); // Connect to the Socket.io server
-
-        // Listen for "weatherData" event from server
+        const socket = io();
         socket.on("weatherData", (data) => {
-          updateWeatherData(JSON.parse(data)); // Call function to update weather data
+          updateWeatherData(JSON.parse(data));
         });
       });
 
       function updateWeatherData(data) {
         const weatherDataDiv = document.getElementById("weatherdata");
-        // Clear existing content
         weatherDataDiv.innerHTML = "";
-
         if (data.current_temp > 50) {
           document.body.style.backgroundImage = "url('sunny.jpg')";
         } else if (data.current_temp < 5) {
@@ -92,44 +59,30 @@
         } else if (data.current_temp > 25 && data.current_temp < 50) {
           document.body.style.backgroundImage = "url('cloudy1.jpg')";
         }
-        // Create weather card
         const card = document.createElement("div");
         card.classList.add("weather-card");
 
-        // Add current temperature
         const currentTemp = document.createElement("div");
         currentTemp.classList.add("weather-data");
         currentTemp.textContent = `Current Temperature: ${data.current_temp}°C`;
         card.appendChild(currentTemp);
 
-        // Add humidity
         const humidity = document.createElement("div");
         humidity.classList.add("weather-data");
         humidity.textContent = `Humidity: ${data.humidity}%`;
         card.appendChild(humidity);
 
-        // Add wind speed
         const windSpeed = document.createElement("div");
         windSpeed.classList.add("weather-data");
         windSpeed.textContent = `Wind Speed: ${data.wind_speed} m/s`;
         card.appendChild(windSpeed);
 
-        // Add visibility
         const visibility = document.createElement("div");
         visibility.classList.add("weather-data");
         visibility.textContent = `Visibility: ${data.visability} km`;
         card.appendChild(visibility);
 
-        // Add weather image or animation based on weather condition
-        // let weatherImage;
-        // if (data.current_temp > 20) {
-        //   weatherImage = '<img src="sun.png" alt="Sun" class="sun">';
-        // } else {
-        //   weatherImage = '<img src="clouds.jpg" alt="Clouds" class="cloud">';
-        // }
-        // card.innerHTML += weatherImage;
-
-        weatherDataDiv.appendChild(card); // Append the card to the weather data container
+        weatherDataDiv.appendChild(card);
       }
     </script>
   </head>
@@ -138,6 +91,5 @@
       <h1>CLIMATE outlook</h1>
     </header>
     <div id="weatherdata"></div>
-    <!-- Container to display weather data -->
   </body>
 </html>

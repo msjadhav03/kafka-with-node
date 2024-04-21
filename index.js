@@ -10,20 +10,18 @@ const server = http.createServer(app);
 
 const io = socketIo(server);
 
-async function runSocketServer() {
+server.listen(3000, () => {
+  console.log("Server running on port 3000");
+  publishMessages();
+});
+
+async function publishMessages() {
   io.on("connection", (socket) => {
     console.log("A client connected");
 
     socket.on("disconnect", () => {
       console.log("Client disconnected");
     });
-
-    // Handle custom events from the client
-    // socket.on("weatherData", (message) => {
-    //   console.log("Message received:", message);
-    //   // Broadcast the message to all connected clients
-    //   io.emit("chat message", data);
-    // });
   });
   await consumer.connect();
   await consumer.subscribe({ topic: "test-topic" });
@@ -38,8 +36,3 @@ async function runSocketServer() {
     },
   });
 }
-
-runSocketServer();
-server.listen(3000, () => {
-  console.log("Server running on port 3000");
-});
